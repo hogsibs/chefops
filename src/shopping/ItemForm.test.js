@@ -18,14 +18,6 @@ describe("ItemForm", () => {
   test("renders an Add Item button", () =>
     expect(itemForm.queryByText("Add Item")).not.toBeNull());
 
-  /*describe('when the user clicks "Add Item"', () => {
-    beforeEach(() => userEvent.click(itemForm.getByText("Add Item")));
-    test("the onSubmit handler is called with form", () => {
-      userEvent.type(itemForm.getByLabelText("Item Name"), "garlic");
-      expect(handleSubmit).toHaveBeenCalledWith({ name: "garlic" });
-    });
-  });*/
-
   describe('when a user types text in "Item Name"', () => {
     beforeEach(() =>
       userEvent.type(itemForm.getByLabelText("Item Name"), "garlic")
@@ -35,5 +27,15 @@ describe("ItemForm", () => {
         "value",
         "garlic"
       ));
+  });
+
+  describe("when the user submits a valid form", () => {
+    beforeEach(() => {
+      userEvent.type(itemForm.getByLabelText("Item Name"), "onions");
+      userEvent.click(itemForm.getByText("Add Item"));
+    });
+    test("the onSubmit handler is called with form values", () => {
+      expect(handleSubmit).toHaveBeenCalledWith({ name: "onions" });
+    });
   });
 });

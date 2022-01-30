@@ -3,7 +3,10 @@ import { useCallback, useState } from "react";
 const ItemForm = ({ onSubmit }) => {
   const [name, setName] = useState();
   return (
-    <form aria-label="Item Form" onSubmit={onSubmit}>
+    <form
+      aria-label="Item Form"
+      onSubmit={useCallback(() => onSubmit({ name }), [name, onSubmit])}
+    >
       <input
         aria-label="Item Name"
         name="name"
