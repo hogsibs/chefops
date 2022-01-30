@@ -1,3 +1,3 @@
-export default function ItemForm() {
-  return <form aria-label="Item Form"></form>;
+export default function ItemForm({ onSubmit }) {
+  return <form aria-label="Item Form" onSubmit={onSubmit}></form>;
 }
