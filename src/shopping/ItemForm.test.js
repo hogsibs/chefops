@@ -14,6 +14,9 @@ describe("ItemForm", () => {
   test("renders an Item Name input", () =>
     expect(itemForm.queryByLabelText("Item Name")).not.toBeNull());
 
+  test("renders an Add Item button", () =>
+    expect(itemForm.queryByText("Add Item")).not.toBeNull());
+
   describe("when the form is submitted", () => {
     beforeEach(() => fireEvent.submit(itemForm.getByRole("form")));
     test("the onSubmit handler is called", () =>
