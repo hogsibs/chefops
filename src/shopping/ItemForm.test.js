@@ -3,25 +3,29 @@ import userEvent from "@testing-library/user-event";
 import ItemForm from "./ItemForm";
 
 describe("ItemForm", () => {
-  /** @type {import("@testing-library/react").RenderResult} */
-  let itemForm;
-  /** @type {HTMLInputElement} */
-  let itemNameInput;
   const handleSubmit = jest.fn();
-  beforeEach(() => {
-    itemForm = render(<ItemForm onSubmit={handleSubmit} />);
-    itemNameInput = itemForm.queryByLabelText("Item Name");
-  });
   afterEach(() => jest.resetAllMocks());
 
-  test("renders a form", () =>
-    expect(itemForm.queryByRole("form")).not.toBeNull());
+  /** @type {HTMLFormElement} */
+  let form;
+  /** @type {HTMLInputElement} */
+  let itemNameInput;
+  /** @type {HTMLButtonElement} */
+  let addItemButton;
+  beforeEach(() => {
+    const itemForm = render(<ItemForm onSubmit={handleSubmit} />);
+    form = itemForm.queryByRole("form");
+    itemNameInput = itemForm.queryByLabelText("Item Name");
+    addItemButton = itemForm.queryByText("Add Item");
+  });
+
+  test("renders a form", () => expect(form).not.toBeNull());
 
   test("renders an Item Name input", () =>
     expect(itemNameInput).not.toBeNull());
 
   test("renders an Add Item button", () =>
-    expect(itemForm.queryByText("Add Item")).not.toBeNull());
+    expect(addItemButton).not.toBeNull());
 
   describe('when a user types text in "Item Name"', () => {
     beforeEach(() => userEvent.type(itemNameInput, "garlic"));
@@ -29,10 +33,10 @@ describe("ItemForm", () => {
       expect(itemNameInput).toHaveAttribute("value", "garlic"));
   });
 
-  describe("when the user submits a valid form", () => {
+  describe("when a user submits a valid form", () => {
     beforeEach(() => {
       userEvent.type(itemNameInput, "onions");
-      userEvent.click(itemForm.getByText("Add Item"));
+      userEvent.click(addItemButton);
     });
     test("the onSubmit handler is called with form values", () => {
       expect(handleSubmit).toHaveBeenCalledWith({ name: "onions" });
