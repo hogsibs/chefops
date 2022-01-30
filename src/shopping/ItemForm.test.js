@@ -1,4 +1,5 @@
-import { fireEvent, render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { render } from "@testing-library/react";
 import ItemForm from "./ItemForm";
 
 describe("ItemForm", () => {
@@ -17,8 +18,8 @@ describe("ItemForm", () => {
   test("renders an Add Item button", () =>
     expect(itemForm.queryByText("Add Item")).not.toBeNull());
 
-  describe("when the form is submitted", () => {
-    beforeEach(() => fireEvent.submit(itemForm.getByRole("form")));
+  describe('when the user clicks "Add Item"', () => {
+    beforeEach(() => userEvent.click(itemForm.getByText("Add Item")));
     test("the onSubmit handler is called", () =>
       expect(handleSubmit).toHaveBeenCalled());
   });
