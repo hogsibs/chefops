@@ -1,5 +1,5 @@
-import userEvent from "@testing-library/user-event";
 import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import ItemForm from "./ItemForm";
 
 describe("ItemForm", () => {
@@ -18,9 +18,22 @@ describe("ItemForm", () => {
   test("renders an Add Item button", () =>
     expect(itemForm.queryByText("Add Item")).not.toBeNull());
 
-  describe('when the user clicks "Add Item"', () => {
+  /*describe('when the user clicks "Add Item"', () => {
     beforeEach(() => userEvent.click(itemForm.getByText("Add Item")));
-    test("the onSubmit handler is called", () =>
-      expect(handleSubmit).toHaveBeenCalled());
+    test("the onSubmit handler is called with form", () => {
+      userEvent.type(itemForm.getByLabelText("Item Name"), "garlic");
+      expect(handleSubmit).toHaveBeenCalledWith({ name: "garlic" });
+    });
+  });*/
+
+  describe('when a user types text in "Item Name"', () => {
+    beforeEach(() =>
+      userEvent.type(itemForm.getByLabelText("Item Name"), "garlic")
+    );
+    test("the input value is controlled", () =>
+      expect(itemForm.getByLabelText("Item Name")).toHaveAttribute(
+        "value",
+        "garlic"
+      ));
   });
 });
