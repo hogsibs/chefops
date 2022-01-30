@@ -1,4 +1,4 @@
-import { createEvent, fireEvent, render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import ItemForm from "./ItemForm";
 
 describe("ItemForm", () => {
@@ -10,6 +10,9 @@ describe("ItemForm", () => {
 
   test("renders a form", () =>
     expect(itemForm.queryByRole("form")).not.toBeNull());
+
+  test("renders an Item Name input", () =>
+    expect(itemForm.queryByLabelText("Item Name")).not.toBeNull());
 
   describe("when the form is submitted", () => {
     beforeEach(() => fireEvent.submit(itemForm.getByRole("form")));
