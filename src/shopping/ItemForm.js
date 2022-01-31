@@ -5,10 +5,14 @@ const ItemForm = ({ onSubmit }) => {
   return (
     <form
       aria-label="Item Form"
-      onSubmit={useCallback(() => {
-        onSubmit({ name });
-        setName("");
-      }, [name, onSubmit, setName])}
+      onSubmit={useCallback(
+        (event) => {
+          onSubmit({ name });
+          setName("");
+          event.preventDefault();
+        },
+        [name, onSubmit, setName]
+      )}
     >
       <input
         aria-label="Item Name"

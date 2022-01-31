@@ -4,7 +4,7 @@ import ItemForm from "./ItemForm";
 
 describe("ItemForm", () => {
   const handleSubmit = jest.fn();
-  afterEach(() => jest.resetAllMocks());
+  afterEach(() => jest.restoreAllMocks());
 
   /** @type {HTMLFormElement} */
   let form;
@@ -34,13 +34,22 @@ describe("ItemForm", () => {
   });
 
   describe("when a user submits a valid form", () => {
+    const globalSubmitHandler = jest.fn();
+
     beforeEach(() => {
+      window.addEventListener("submit", globalSubmitHandler);
       userEvent.type(itemNameInput, "onions");
       userEvent.click(addItemButton);
     });
+
     test("the onSubmit handler is called with form values", () => {
       expect(handleSubmit).toHaveBeenCalledWith({ name: "onions" });
     });
     test("Item Name is cleared", () => expect(itemNameInput).not.toHaveValue());
+    test("default event handler for onSubmit is prevented", () =>
+      expect(globalSubmitHandler.mock.calls[0][0]).toHaveProperty(
+        "defaultPrevented",
+        true
+      ));
   });
 });
