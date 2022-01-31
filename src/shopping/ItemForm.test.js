@@ -47,9 +47,8 @@ describe("ItemForm", () => {
     });
     test("Item Name is cleared", () => expect(itemNameInput).not.toHaveValue());
     test("default event handler for onSubmit is prevented", () =>
-      expect(globalSubmitHandler.mock.calls[0][0]).toHaveProperty(
-        "defaultPrevented",
-        true
+      expect(globalSubmitHandler).toHaveBeenCalledWith(
+        expect.toHavePropertyValue("defaultPrevented", true)
       ));
   });
 });
