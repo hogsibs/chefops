@@ -3,13 +3,8 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
-
-// add all jest-extended matchers
-import * as matchers from "jest-extended";
-expect.extend(matchers);
+import matchers from "expect/build/matchers";
 
 expect.extend({
-  toHavePropertyValue(received, property, value) {
-      return { pass: this.equals(received[property], value) };
-  },
+  toHaveProperty: matchers.toHaveProperty
 });
