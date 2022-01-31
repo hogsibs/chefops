@@ -34,20 +34,23 @@ describe("ItemForm", () => {
   });
 
   describe("when a user submits a valid form", () => {
-    const globalSubmitHandler = jest.fn();
+    const handleSubmitGlobal = jest.fn();
 
     beforeEach(() => {
-      window.addEventListener("submit", globalSubmitHandler);
+      window.addEventListener("submit", handleSubmitGlobal);
       userEvent.type(itemNameInput, "onions");
       userEvent.click(addItemButton);
     });
+    afterEach(() => {
+      window.removeEventListener("submit", handleSubmitGlobal);
+    })
 
     test("the onSubmit handler is called with form values", () => {
       expect(handleSubmit).toHaveBeenCalledWith({ name: "onions" });
     });
     test("Item Name is cleared", () => expect(itemNameInput).not.toHaveValue());
     test("default event handler for onSubmit is prevented", () =>
-      expect(globalSubmitHandler).toHaveBeenCalledWith(
+      expect(handleSubmitGlobal).toHaveBeenCalledWith(
         expect.toHaveProperty("defaultPrevented", true)
       ));
   });
