@@ -1,57 +1,81 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ItemForm from "./ItemForm";
 
 describe("ItemForm", () => {
-  const handleSubmit = jest.fn();
-  afterEach(() => jest.restoreAllMocks());
+  const getForm = () => screen.getByRole("form");
+  const getItemNameInput = () => screen.getByLabelText("Item Name");
+  const getAddItemButton = () => screen.getByText("Add Item");
 
-  /** @type {HTMLFormElement} */
-  let form;
-  /** @type {HTMLInputElement} */
-  let itemNameInput;
-  /** @type {HTMLButtonElement} */
-  let addItemButton;
-  beforeEach(() => {
-    const itemForm = render(<ItemForm onSubmit={handleSubmit} />);
-    form = itemForm.queryByRole("form");
-    itemNameInput = itemForm.queryByLabelText("Item Name");
-    addItemButton = itemForm.queryByText("Add Item");
+  test("renders a form", () => {
+    render(<ItemForm />);
+
+    expect(getForm()).toBeInTheDocument();
   });
 
-  test("renders a form", () => expect(form).not.toBeNull());
+  test('renders an "Item Name" input', () => {
+    render(<ItemForm />);
 
-  test("renders an Item Name input", () =>
-    expect(itemNameInput).not.toBeNull());
+    expect(getItemNameInput()).toBeInTheDocument();
+  });
 
-  test("renders an Add Item button", () =>
-    expect(addItemButton).not.toBeNull());
+  test('"Item Name" input value is controlled', () => {
+    render(<ItemForm />);
 
-  describe('when a user types text in "Item Name"', () => {
-    beforeEach(() => userEvent.type(itemNameInput, "garlic"));
-    test("the input value is controlled", () =>
-      expect(itemNameInput).toHaveAttribute("value", "garlic"));
+    userEvent.type(getItemNameInput(), "garlic");
+
+    expect(getItemNameInput()).toHaveAttribute("value", "garlic");
+  });
+
+  test('renders an "Add Item" button', () => {
+    render(<ItemForm />);
+    
+    expect(getAddItemButton()).toBeInTheDocument();
   });
 
   describe("when a user submits a valid form", () => {
-    const handleSubmitGlobal = jest.fn();
-
-    beforeEach(() => {
-      window.addEventListener("submit", handleSubmitGlobal);
-      userEvent.type(itemNameInput, "onions");
-      userEvent.click(addItemButton);
-    });
-    afterEach(() => {
-      window.removeEventListener("submit", handleSubmitGlobal);
-    })
+    const submitValidForm = () => {
+      userEvent.type(getItemNameInput(), "onions");
+      userEvent.click(getAddItemButton());
+    };
 
     test("the onSubmit handler is called with form values", () => {
+      const handleSubmit = jest.fn();
+      render(<ItemForm onSubmit={handleSubmit} />);
+
+      submitValidForm();
+
       expect(handleSubmit).toHaveBeenCalledWith({ name: "onions" });
     });
-    test("Item Name is cleared", () => expect(itemNameInput).not.toHaveValue());
-    test("default event handler for onSubmit is prevented", () =>
-      expect(handleSubmitGlobal).toHaveBeenCalledWith(
-        expect.toHaveProperty("defaultPrevented", true)
-      ));
+
+    test("Item Name is cleared", () => {
+      render(<ItemForm onSubmit={() => {}} />);
+
+      submitValidForm();
+
+      expect(getItemNameInput()).not.toHaveValue();
+    });
+
+    describe("global submit event", () => {
+      const handleSubmitGlobal = jest.fn();
+      afterEach(() => handleSubmitGlobal.mockRestore());
+
+      beforeAll(() => {
+        window.addEventListener("submit", handleSubmitGlobal);
+      });
+      afterAll(() => {
+        window.removeEventListener("submit", handleSubmitGlobal);
+      });
+
+      test("default is prevented", () => {
+        render(<ItemForm onSubmit={() => {}} />);
+
+        submitValidForm();
+
+        expect(handleSubmitGlobal).toHaveBeenCalledWith(
+          expect.toHaveProperty("defaultPrevented", true)
+        );
+      });
+    });
   });
 });
