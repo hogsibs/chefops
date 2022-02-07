@@ -6,5 +6,5 @@ import "@testing-library/jest-dom";
 import matchers from "expect/build/matchers";
 
 expect.extend({
-  toHaveProperty: matchers.toHaveProperty
+  toHaveProperty: matchers.toHaveProperty,
 });
