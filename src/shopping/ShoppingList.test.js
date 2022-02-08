@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import ShoppingList from "./ShoppingList";
 
 describe("ShoppingList", () => {
@@ -13,8 +13,9 @@ describe("ShoppingList", () => {
   test("renders each item in a list", () => {
     render(<ShoppingList items={[{ name: "seaweed" }, { name: "bananas" }]} />);
 
-    expect(screen.getAllByRole("listitem")).toHaveLength(2);
-    expect(screen.getByText("seaweed")).toBeInTheDocument();
-    expect(screen.getByText("bananas")).toBeInTheDocument();
+    expect(within(screen.getByRole("list")).getAllByRole("listitem")).toEqual([
+      expect.toHaveTextContent("seaweed"),
+      expect.toHaveTextContent("bananas")
+    ])
   });
 });
