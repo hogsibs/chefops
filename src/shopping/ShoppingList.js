@@ -7,7 +7,12 @@ export default function ShoppingList({ items }) {
   return items.length ? (
     <ul>
       {items.map((item, index) => (
-        <li key={index}>{item.name}</li>
+        <li key={index}>
+          <label>
+            <input type="checkbox" />
+            {item.name}
+          </label>
+        </li>
       ))}
     </ul>
   ) : (

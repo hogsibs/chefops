@@ -15,7 +15,15 @@ describe("ShoppingList", () => {
 
     expect(within(screen.getByRole("list")).getAllByRole("listitem")).toEqual([
       expect.toHaveTextContent("seaweed"),
-      expect.toHaveTextContent("bananas")
-    ])
+      expect.toHaveTextContent("bananas"),
+    ]);
+  });
+
+  test("renders a checkbox for each item", () => {
+    render(<ShoppingList items={[{ name: "watermelon" }]} />);
+
+    const element = screen.queryByLabelText("watermelon");
+    expect(element).toBe("input");
+    expect(element).toHaveAttribute("type", "checkbox");
   });
 });
