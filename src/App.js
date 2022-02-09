@@ -1,8 +1,8 @@
 import "./App.css";
-import ItemForm from "./shopping/ItemForm";
+import { ShoppingModule } from "./shopping";
 
 function App() {
-  return <ItemForm onSubmit={(value) => console.log(value)} />;
+  return <ShoppingModule />;
 }
 
 export default App;
