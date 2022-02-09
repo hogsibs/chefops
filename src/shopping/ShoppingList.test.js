@@ -22,8 +22,8 @@ describe("ShoppingList", () => {
   test("renders a checkbox for each item", () => {
     render(<ShoppingList items={[{ name: "watermelon" }]} />);
 
-    const element = screen.queryByLabelText("watermelon");
-    expect(element).toBe("input");
+    const element = screen.getByLabelText("watermelon");
+    expect(element).toBeInstanceOf(HTMLInputElement);
     expect(element).toHaveAttribute("type", "checkbox");
   });
 });
