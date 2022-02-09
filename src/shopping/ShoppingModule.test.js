@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import ItemForm from "./ItemForm";
 import ShoppingList from "./ShoppingList";
 import ShoppingModule from "./ShoppingModule";
@@ -26,5 +27,23 @@ describe("ShoppingModule", () => {
     render(<ShoppingModule />);
 
     expect(screen.getByTestId("ShoppingList")).toBeInTheDocument();
+  });
+
+  test("submissions to the ItemForm get added to the ShoppingList", () => {
+    let submitItem;
+    ItemForm.mockImplementation(({ onSubmit }) => {
+      submitItem = onSubmit;
+      return null;
+    });
+    let actualItems;
+    ShoppingList.mockImplementation(({ items }) => {
+      actualItems = items;
+      return null;
+    });
+    render(<ShoppingModule />);
+
+    act(() => submitItem({ name: "bell peppers" }));
+
+    expect(actualItems).toEqual([{ name: "bell peppers" }]);
   });
 });
