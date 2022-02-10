@@ -25,7 +25,7 @@ export default function ShoppingList({ items, onChangeIsChecked }) {
 const ItemCheckbox = ({ item, onChange }) => (
   <input
     type="checkbox"
-    checked={item.isChecked}
+    checked={Boolean(item.isChecked)}
     onChange={useCallback(
       (event) => onChange(item, event.target.checked),
       [item, onChange]
