@@ -15,6 +15,9 @@ describe("ShoppingModule", () => {
       return <div data-testid="ItemForm" />;
     });
   });
+  afterEach(() => {
+    addItem = null;
+  });
 
   let actualItems;
   let changeIsChecked;
@@ -24,6 +27,10 @@ describe("ShoppingModule", () => {
       changeIsChecked = onChangeIsChecked;
       return <div data-testid="ShoppingList" />;
     });
+  });
+  afterEach(() => {
+    actualItems = null;
+    actualItems = null;
   });
 
   test("renders an ItemForm", () => {
