@@ -30,7 +30,7 @@ describe("ShoppingModule", () => {
   });
   afterEach(() => {
     actualItems = null;
-    actualItems = null;
+    changeIsChecked = null;
   });
 
   test("renders an ItemForm", () => {
