@@ -1,5 +1,7 @@
 import classNames from "classnames";
 import { useCallback } from "react";
+import { connect } from "react-redux";
+import { changeItemIsChecked } from "./shoppingCartReducer";
 import styles from "./ShoppingList.module.css";
 
 /**
@@ -7,7 +9,7 @@ import styles from "./ShoppingList.module.css";
  * @param {[]} props.items
  * @returns {import("react").ReactElement}
  */
-export default function ShoppingList({ items, onChangeIsChecked }) {
+export function ShoppingList({ items, onChangeIsChecked }) {
   return items.length ? (
     <ul>
       {items.map((item, index) => (
@@ -28,6 +30,14 @@ export default function ShoppingList({ items, onChangeIsChecked }) {
     "There are no items in the shopping list."
   );
 }
+
+export const mapStateToProps = (state) => ({ items: state.shoppingCart });
+export const mapDispatchToProps = (dispatch) => ({
+  onChangeIsChecked: (item, isChecked) =>
+    dispatch(changeItemIsChecked({ item, isChecked })),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShoppingList);
 
 const ItemCheckbox = ({ item, onChange }) => (
   <input
