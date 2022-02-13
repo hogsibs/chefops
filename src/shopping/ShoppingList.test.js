@@ -1,7 +1,12 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ShoppingList from "./ShoppingList";
+import {
+  mapDispatchToProps,
+  mapStateToProps,
+  ShoppingList,
+} from "./ShoppingList";
 import styles from "./ShoppingList.module.css";
+import { changeItemIsChecked } from "./shoppingCartReducer";
 
 describe("ShoppingList", () => {
   test("when given an empty list, displays a message indicating there are no items", () => {
@@ -72,5 +77,28 @@ describe("ShoppingList", () => {
           role === "listitem" && element.textContent === "potatoes"
       )
     ).toHaveClass(styles["item--checked"]);
+  });
+});
+
+describe("mapStateToProps", () => {
+  test("maps shopping cart to items", () => {
+    const shoppingCart = [{ name: "hot dog buns", isChecked: true }];
+    const props = mapStateToProps({ shoppingCart });
+
+    expect(props).toHaveProperty("items", expect.toBe(shoppingCart));
+  });
+});
+
+describe("mapDispatchToProps", () => {
+  test("binds changeItemIsChecked action to onChangeIsChecked", () => {
+    const dispatch = jest.fn();
+    const { onChangeIsChecked } = mapDispatchToProps(dispatch);
+
+    const cabbage = { name: "cabbage" };
+    onChangeIsChecked(cabbage, true);
+
+    expect(dispatch).toHaveBeenCalledWith(
+      changeItemIsChecked({ item: cabbage, isChecked: true })
+    );
   });
 });

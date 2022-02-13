@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ItemForm from "./ItemForm";
+import { ItemForm, mapDispatchToProps } from "./ItemForm";
+import { addItem } from "./shoppingCartReducer";
 
 describe("ItemForm", () => {
   const getForm = () => screen.getByRole("form");
@@ -29,7 +30,7 @@ describe("ItemForm", () => {
 
   test('renders an "Add Item" button', () => {
     render(<ItemForm />);
-    
+
     expect(getAddItemButton()).toBeInTheDocument();
   });
 
@@ -77,5 +78,16 @@ describe("ItemForm", () => {
         );
       });
     });
+  });
+});
+
+describe("mapDispatchToProps", () => {
+  test("binds addItem action to onSubmit", () => {
+    const dispatch = jest.fn();
+    const { onSubmit } = mapDispatchToProps(dispatch);
+
+    onSubmit({ name: "ginger" });
+
+    expect(dispatch).toHaveBeenCalledWith(addItem({ name: "ginger" }));
   });
 });
