@@ -1,4 +1,6 @@
+import classNames from "classnames";
 import { useCallback } from "react";
+import styles from "./ShoppingList.module.css";
 
 /**
  * @param {Object} props
@@ -9,7 +11,12 @@ export default function ShoppingList({ items, onChangeIsChecked }) {
   return items.length ? (
     <ul>
       {items.map((item, index) => (
-        <li key={index}>
+        <li
+          key={index}
+          className={classNames({
+            [styles["item--checked"]]: item.isChecked,
+          })}
+        >
           <label>
             <ItemCheckbox item={item} onChange={onChangeIsChecked} />
             {item.name}

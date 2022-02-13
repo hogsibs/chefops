@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ShoppingList from "./ShoppingList";
+import styles from "./ShoppingList.module.css";
 
 describe("ShoppingList", () => {
   test("when given an empty list, displays a message indicating there are no items", () => {
@@ -60,5 +61,16 @@ describe("ShoppingList", () => {
       expect.toBe(whippedCream),
       true
     );
+  });
+
+  test("checked items are styled in strikethrough", () => {
+    render(<ShoppingList items={[{ name: "potatoes", isChecked: true }]} />);
+
+    expect(
+      screen.getByRole(
+        (role, element) =>
+          role === "listitem" && element.textContent === "potatoes"
+      )
+    ).toHaveClass(styles["item--checked"]);
   });
 });
