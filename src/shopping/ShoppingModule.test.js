@@ -8,42 +8,58 @@ jest.mock("./ItemForm").mock("./ShoppingList");
 afterEach(() => jest.restoreAllMocks());
 
 describe("ShoppingModule", () => {
+  let addItem;
   beforeEach(() => {
-    ItemForm.mockReturnValue(null);
-    ShoppingList.mockReturnValue(null);
+    ItemForm.mockImplementation(({ onSubmit }) => {
+      addItem = onSubmit;
+      return <div data-testid="ItemForm" />;
+    });
+  });
+  afterEach(() => {
+    addItem = null;
+  });
+
+  let actualItems;
+  let changeIsChecked;
+  beforeEach(() => {
+    ShoppingList.mockImplementation(({ items, onChangeIsChecked }) => {
+      actualItems = items;
+      changeIsChecked = onChangeIsChecked;
+      return <div data-testid="ShoppingList" />;
+    });
+  });
+  afterEach(() => {
+    actualItems = null;
+    changeIsChecked = null;
   });
 
   test("renders an ItemForm", () => {
-    ItemForm.mockReturnValue(<div data-testid="ItemForm" />);
-
     render(<ShoppingModule />);
 
     expect(screen.getByTestId("ItemForm")).toBeInTheDocument();
   });
 
   test("renders a ShoppingList", () => {
-    ShoppingList.mockReturnValue(<div data-testid="ShoppingList" />);
-
     render(<ShoppingModule />);
 
     expect(screen.getByTestId("ShoppingList")).toBeInTheDocument();
   });
 
   test("submissions to the ItemForm get added to the ShoppingList", () => {
-    let submitItem;
-    ItemForm.mockImplementation(({ onSubmit }) => {
-      submitItem = onSubmit;
-      return null;
-    });
-    let actualItems;
-    ShoppingList.mockImplementation(({ items }) => {
-      actualItems = items;
-      return null;
-    });
     render(<ShoppingModule />);
 
-    act(() => submitItem({ name: "bell peppers" }));
+    act(() => addItem({ name: "bell peppers" }));
 
     expect(actualItems).toEqual([{ name: "bell peppers" }]);
+  });
+
+  test("checked changes get tracked in items", () => {
+    render(<ShoppingModule />);
+    const chocolateChips = { name: "chocolate chips" };
+    act(() => addItem(chocolateChips));
+
+    act(() => changeIsChecked(chocolateChips, true));
+
+    expect(actualItems).toEqual([{ name: "chocolate chips", isChecked: true }]);
   });
 });

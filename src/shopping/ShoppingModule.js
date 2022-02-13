@@ -11,7 +11,18 @@ const ShoppingModule = () => {
   return (
     <>
       <ItemForm onSubmit={addItem} />
-      <ShoppingList items={items} />
+      <ShoppingList
+        items={items}
+        onChangeIsChecked={useCallback(
+          (changingItem, isChecked) =>
+            setItems(
+              items.map((item) =>
+                changingItem === item ? { ...changingItem, isChecked } : item
+              )
+            ),
+          [items]
+        )}
+      />
     </>
   );
 };
