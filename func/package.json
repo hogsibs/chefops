@@ -2,8 +2,9 @@
   "name": "",
   "version": "",
   "description": "",
-  "scripts" : {
+  "scripts": {
     "test": "echo \"No tests yet...\""
   },
-  "author": ""
+  "author": "",
+  "type": "module"
 }
