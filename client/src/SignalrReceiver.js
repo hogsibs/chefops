@@ -8,7 +8,7 @@ const SignalrReceiver = () => {
   );
   useEffect(() => {
     const connection = new HubConnectionBuilder()
-      .withUrl("http://localhost:7071/api/")
+      .withUrl("http://localhost:7071/api/", { withCredentials: false })
       .configureLogging(LogLevel.Information)
       .build();
     connection.on("newMessage", dispatchMessage);
