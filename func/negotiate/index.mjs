@@ -1,5 +1,4 @@
-const negotiate = (context, _, connectionInfo) => {
+const negotiate = async (context, _, connectionInfo) => {
   context.res.body = connectionInfo;
-  context.done();
 };
 export default negotiate;

@@ -1,0 +1,13 @@
+{
+  "bindings": [
+    {
+      "type": "signalRTrigger",
+      "name": "invocation",
+      "hubName": "serverless",
+      "category": "messages",
+      "event": "dispatch",
+      "parameterNames": ["action"],
+      "direction": "in"
+    }
+  ]
+}
