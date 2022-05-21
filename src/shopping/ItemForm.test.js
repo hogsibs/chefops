@@ -20,12 +20,12 @@ describe("ItemForm", () => {
     expect(getItemNameInput()).toBeInTheDocument();
   });
 
-  test('"Item Name" input value is controlled', () => {
+  test('"Item Name" input value is controlled', async () => {
     render(<ItemForm />);
 
-    userEvent.type(getItemNameInput(), "garlic");
+    await userEvent.type(getItemNameInput(), "garlic");
 
-    expect(getItemNameInput()).toHaveAttribute("value", "garlic");
+    expect(getItemNameInput()).toHaveValue("garlic");
   });
 
   test('renders an "Add Item" button', () => {
@@ -35,24 +35,24 @@ describe("ItemForm", () => {
   });
 
   describe("when a user submits a valid form", () => {
-    const submitValidForm = () => {
-      userEvent.type(getItemNameInput(), "onions");
-      userEvent.click(getAddItemButton());
+    const submitValidForm = async () => {
+      await userEvent.type(getItemNameInput(), "onions");
+      await userEvent.click(getAddItemButton());
     };
 
-    test("the onSubmit handler is called with form values", () => {
+    test("the onSubmit handler is called with form values", async () => {
       const handleSubmit = jest.fn();
       render(<ItemForm onSubmit={handleSubmit} />);
 
-      submitValidForm();
+      await submitValidForm();
 
       expect(handleSubmit).toHaveBeenCalledWith({ name: "onions" });
     });
 
-    test("Item Name is cleared", () => {
+    test("Item Name is cleared", async () => {
       render(<ItemForm onSubmit={() => {}} />);
 
-      submitValidForm();
+      await submitValidForm();
 
       expect(getItemNameInput()).not.toHaveValue();
     });
@@ -68,10 +68,10 @@ describe("ItemForm", () => {
         window.removeEventListener("submit", handleSubmitGlobal);
       });
 
-      test("default is prevented", () => {
+      test("default is prevented", async () => {
         render(<ItemForm onSubmit={() => {}} />);
 
-        submitValidForm();
+        await submitValidForm();
 
         expect(handleSubmitGlobal).toHaveBeenCalledWith(
           expect.toHaveProperty("defaultPrevented", true)

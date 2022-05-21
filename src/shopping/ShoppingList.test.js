@@ -50,7 +50,7 @@ describe("ShoppingList", () => {
     expect(screen.getByLabelText("carrots")).not.toBeChecked();
   });
 
-  test("when a checkbox is checked, the onChangeIsChecked callback is invoked", () => {
+  test("when a checkbox is checked, the onChangeIsChecked callback is invoked", async () => {
     const handleChangeIsChecked = jest.fn();
     const whippedCream = { name: "whipped cream" };
     render(
@@ -60,7 +60,7 @@ describe("ShoppingList", () => {
       />
     );
 
-    userEvent.click(screen.getByLabelText("whipped cream"));
+    await userEvent.click(screen.getByLabelText("whipped cream"));
 
     expect(handleChangeIsChecked).toHaveBeenCalledWith(
       expect.toBe(whippedCream),
