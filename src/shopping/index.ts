@@ -1,2 +1,2 @@
-export { default as ShoppingModule } from "./ShoppingModule";
-export { default as shoppingCartReducer } from "./shoppingCartReducer";
+export { default as ShoppingModule } from "./shopping-module";
+export { default as shoppingCartReducer } from "./shopping-cart-reducer";

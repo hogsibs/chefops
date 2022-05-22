@@ -1,5 +1,5 @@
-import ItemForm from "./ItemForm";
-import ShoppingList from "./ShoppingList";
+import ItemForm from "./item-form";
+import ShoppingList from "./shopping-list";
 
 const ShoppingModule = () => {
   return (

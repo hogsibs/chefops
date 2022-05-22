@@ -1,6 +1,6 @@
 import { render, screen } from "../test-utils";
 import userEvent from "@testing-library/user-event";
-import ItemForm from "./ItemForm";
+import ItemForm from "./item-form";
 
 const handleSubmitGlobal = jest.fn();
 afterEach(() => handleSubmitGlobal.mockRestore());

@@ -1,7 +1,7 @@
 import { render, screen } from "../test-utils";
 import userEvent from "@testing-library/user-event";
-import ShoppingList from "./ShoppingList";
-import styles from "./ShoppingList.module.css";
+import ShoppingList from "./shopping-list";
+import styles from "./shopping-list.module.css";
 
 test("when given an empty list, displays a message indicating there are no items", () => {
   render(<ShoppingList />, { preloadedState: { shoppingCart: [] } });
