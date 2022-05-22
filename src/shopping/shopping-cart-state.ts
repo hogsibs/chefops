@@ -6,9 +6,11 @@ export interface ShoppingItem {
   isChecked?: boolean;
 }
 
+type ShoppingCartState = ShoppingItem[];
+
 const shoppingCartSlice = createSlice({
   name: "shoppingCart",
-  initialState: [] as ShoppingItem[],
+  initialState: [] as ShoppingCartState,
   reducers: {
     addItem(state, { payload: newItem }: PayloadAction<ShoppingItem>) {
       state.push(newItem);
@@ -28,5 +30,8 @@ const shoppingCartSlice = createSlice({
   },
 });
 
+export const name = shoppingCartSlice.name;
 export const { addItem, changeItemIsChecked } = shoppingCartSlice.actions;
-export default shoppingCartSlice.reducer;
+export const reducer = shoppingCartSlice.reducer;
+export const selectShoppingCart = (state: { [name]: ShoppingCartState }) =>
+  state[name];

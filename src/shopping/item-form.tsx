@@ -7,7 +7,7 @@ import {
 } from "react";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "../store";
-import { addItem } from "./shopping-cart-reducer";
+import { addItem } from "./shopping-cart-state";
 
 const ItemForm: FunctionComponent = () => {
   const dispatch = useDispatch<Dispatch>();
