@@ -1,25 +1,33 @@
-import { useCallback, useState } from "react";
-import { connect } from "react-redux";
-import { addItem } from "./shoppingCartReducer.ts";
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  FunctionComponent,
+  useCallback,
+  useState,
+} from "react";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "../store";
+import { addItem } from "./shoppingCartReducer";
 
-const ItemForm = ({ onSubmit }) => {
+const ItemForm: FunctionComponent = () => {
+  const dispatch = useDispatch<Dispatch>();
   const [name, setName] = useState("");
   return (
     <form
       aria-label="Item Form"
-      onSubmit={useCallback(
+      onSubmit={useCallback<FormEventHandler>(
         (event) => {
-          onSubmit({ name });
+          dispatch(addItem({ name }));
           setName("");
           event.preventDefault();
         },
-        [name, onSubmit, setName]
+        [dispatch, name]
       )}
     >
       <input
         aria-label="Item Name"
         name="name"
-        onChange={useCallback(
+        onChange={useCallback<ChangeEventHandler<HTMLInputElement>>(
           ({ target: { value } }) => setName(value),
           [setName]
         )}
@@ -31,8 +39,4 @@ const ItemForm = ({ onSubmit }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (item) => dispatch(addItem(item)),
-});
-
-export default connect(null, mapDispatchToProps)(ItemForm);
+export default ItemForm;

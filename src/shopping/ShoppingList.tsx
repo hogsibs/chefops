@@ -1,17 +1,23 @@
 import classNames from "classnames";
-import { FunctionComponent, useCallback, useId } from "react";
-import { connect, useDispatch } from "react-redux";
-import { changeItemIsChecked, ShoppingItem } from "./shoppingCartReducer.ts";
-import { Dispatch, State } from "../store.ts";
+import {
+  ChangeEventHandler,
+  FunctionComponent,
+  useCallback,
+  useId,
+} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { changeItemIsChecked, ShoppingItem } from "./shoppingCartReducer";
+import { Dispatch, State } from "../store";
 import styles from "./ShoppingList.module.css";
 
-export const ShoppingList: FunctionComponent<any> = ({ items }) => {
+const ShoppingList: FunctionComponent = () => {
+  const items = useSelector((state: State) => state.shoppingCart);
   return (
     <>
       {items.length ? (
         <ul>
-          {items.map((item) => (
-            <ShoppingListItem item={item} />
+          {items.map((item, index) => (
+            <ShoppingListItem key={index} item={item} />
           ))}
         </ul>
       ) : (
@@ -40,7 +46,7 @@ const ShoppingListItem: FunctionComponent<ShoppingListItemProps> = ({
         id={checkboxId}
         type="checkbox"
         checked={Boolean(item.isChecked)}
-        onChange={useCallback(
+        onChange={useCallback<ChangeEventHandler<HTMLInputElement>>(
           (event) =>
             dispatch(
               changeItemIsChecked({ item, isChecked: event.target.checked })
@@ -53,8 +59,4 @@ const ShoppingListItem: FunctionComponent<ShoppingListItemProps> = ({
   );
 };
 
-export const mapStateToProps = (state: State) => ({
-  items: state.shoppingCart,
-});
-
-export default connect(mapStateToProps)(ShoppingList);
+export default ShoppingList;

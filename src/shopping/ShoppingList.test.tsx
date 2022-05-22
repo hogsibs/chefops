@@ -1,6 +1,6 @@
-import { render, screen, within } from "../test-utils.tsx";
+import { render, screen } from "../test-utils";
 import userEvent from "@testing-library/user-event";
-import ShoppingList from "./ShoppingList.tsx";
+import ShoppingList from "./ShoppingList";
 import styles from "./ShoppingList.module.css";
 
 test("when given an empty list, displays a message indicating there are no items", () => {
@@ -18,10 +18,8 @@ test("renders each item in a list", () => {
     },
   });
 
-  expect(within(screen.getByRole("list")).getAllByRole("listitem")).toEqual([
-    expect.toHaveTextContent("seaweed"),
-    expect.toHaveTextContent("bananas"),
-  ]);
+  expect(screen.getByText("seaweed")).toBeInTheDocument();
+  expect(screen.getByText("bananas")).toBeInTheDocument();
 });
 
 test("renders a checkbox for each item", () => {

@@ -1,4 +1,3 @@
-import "./App.css";
 import { ShoppingModule } from "./shopping";
 
 function App() {

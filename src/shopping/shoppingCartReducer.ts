@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { original } from "immer";
 
 export interface ShoppingItem {
@@ -10,12 +10,20 @@ const shoppingCartSlice = createSlice({
   name: "shoppingCart",
   initialState: [] as ShoppingItem[],
   reducers: {
-    addItem(state, { payload: newItem }) {
+    addItem(state, { payload: newItem }: PayloadAction<ShoppingItem>) {
       state.push(newItem);
     },
-    changeItemIsChecked(state, { payload: { item, isChecked } }) {
-      state.find((itemDraft) => original(itemDraft) === item).isChecked =
-        isChecked;
+    changeItemIsChecked(
+      state,
+      {
+        payload: { item, isChecked },
+      }: PayloadAction<{ item: ShoppingItem; isChecked: boolean }>
+    ) {
+      const stateItem = state.find((itemDraft) => original(itemDraft) === item);
+      if (!stateItem) {
+        throw new Error(`shopping item ${item.name} does not exist`);
+      }
+      stateItem.isChecked = isChecked;
     },
   },
 });
