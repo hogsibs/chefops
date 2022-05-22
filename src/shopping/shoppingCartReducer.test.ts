@@ -2,10 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import shoppingCartReducer, {
   addItem,
   changeItemIsChecked,
-} from "./shoppingCartReducer";
+} from "./shoppingCartReducer.ts";
 
 describe("shoppingCartReducer", () => {
-  const createMockStore = (initialState) =>
+  const createMockStore = (initialState?) =>
     configureStore({
       reducer: shoppingCartReducer,
       preloadedState: initialState,
@@ -23,7 +23,7 @@ describe("shoppingCartReducer", () => {
     const milk = { name: "milk" };
     store.dispatch(addItem(milk));
 
-    expect(store.getState()).toEqual([expect.toBe(milk)]);
+    expect(store.getState()).toEqual([milk]);
   });
 
   [true, false].forEach((isChecked) =>

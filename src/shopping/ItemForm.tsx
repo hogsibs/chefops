@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import { connect } from "react-redux";
-import { addItem } from "./shoppingCartReducer";
+import { addItem } from "./shoppingCartReducer.ts";
 
-export const ItemForm = ({ onSubmit }) => {
+const ItemForm = ({ onSubmit }) => {
   const [name, setName] = useState("");
   return (
     <form
@@ -31,7 +31,7 @@ export const ItemForm = ({ onSubmit }) => {
   );
 };
 
-export const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   onSubmit: (item) => dispatch(addItem(item)),
 });
 

@@ -1,9 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { original } from "immer";
 
+export interface ShoppingItem {
+  name: string;
+  isChecked?: boolean;
+}
+
 const shoppingCartSlice = createSlice({
   name: "shoppingCart",
-  initialState: [],
+  initialState: [] as ShoppingItem[],
   reducers: {
     addItem(state, { payload: newItem }) {
       state.push(newItem);

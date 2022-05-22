@@ -1,2 +1,2 @@
-export { default as ShoppingModule } from "./ShoppingModule";
-export { default as shoppingCartReducer } from "./shoppingCartReducer";
+export { default as ShoppingModule } from "./ShoppingModule.tsx";
+export { default as shoppingCartReducer } from "./shoppingCartReducer.ts";
