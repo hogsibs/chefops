@@ -35,9 +35,17 @@
       "react-app/jest",
       "plugin:unicorn/recommended"
     ],
-    "ignorePatterns": [
-      "setupTests.ts"
-    ]
+    "rules": {
+      "unicorn/filename-case": [
+        "error",
+        {
+          "case": "kebabCase",
+          "ignore": [
+            "setupTests.ts"
+          ]
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [
