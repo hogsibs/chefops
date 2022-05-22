@@ -8,7 +8,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { changeItemIsChecked, ShoppingItem } from "./shopping-cart-reducer";
 import { Dispatch, State } from "../store";
-import styles from "./ShoppingList.module.css";
+import styles from "./shopping-list.module.css";
 
 const ShoppingList: FunctionComponent = () => {
   const items = useSelector((state: State) => state.shoppingCart);
