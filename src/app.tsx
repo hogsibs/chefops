@@ -1,7 +1,5 @@
-import { ShoppingModule } from "./shopping";
+import {ShoppingModule} from './shopping';
 
-function App() {
-  return <ShoppingModule />;
-}
+const App = () => <ShoppingModule/>;
 
 export default App;
