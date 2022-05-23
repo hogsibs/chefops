@@ -1,40 +1,38 @@
-import {
-	ChangeEventHandler,
-	FormEventHandler,
-	FunctionComponent,
-	useCallback,
-	useState,
-} from 'react';
-import {useDispatch} from 'react-redux';
+import {FunctionComponent} from 'react';
+import {useForm, useController} from 'react-hook-form';
+import {useDispatch, useSelector} from 'react-redux';
 import {Dispatch} from '../store';
-import {addItem} from './shopping-cart-state';
+import {addItem, selectShoppingCart} from './shopping-cart-state';
+
+interface ItemFormValues {
+	name: string;
+}
 
 const ItemForm: FunctionComponent = () => {
 	const dispatch = useDispatch<Dispatch>();
-	const [name, setName] = useState('');
+	const shoppingCart = useSelector(selectShoppingCart);
+	const {reset, handleSubmit, control} = useForm<ItemFormValues>();
+	const {field, fieldState} = useController({
+		control,
+		name: 'name',
+		defaultValue: '',
+		rules: {
+			validate: name => shoppingCart.every(item => item.name !== name),
+		},
+	});
+
 	return (
 		<form
 			aria-label='Item Form'
-			onSubmit={useCallback<FormEventHandler>(
-				event => {
-					dispatch(addItem({name}));
-					setName('');
-					event.preventDefault();
-				},
-				[dispatch, name],
-			)}
+			onSubmit={handleSubmit(({name}) => {
+				dispatch(addItem({name}));
+				reset();
+			})}
 		>
 			<input
 				aria-label='Item Name'
-				name='name'
-				type='text'
-				value={name}
-				onChange={useCallback<ChangeEventHandler<HTMLInputElement>>(
-					({target: {value}}) => {
-						setName(value);
-					},
-					[setName],
-				)}
+				{...field}
+				aria-invalid={Boolean(fieldState.error)}
 			/>
 			<button type='submit'>Add Item</button>
 		</form>

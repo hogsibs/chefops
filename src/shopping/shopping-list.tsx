@@ -16,18 +16,14 @@ import styles from './shopping-list.module.css';
 
 const ShoppingList: FunctionComponent = () => {
 	const items = useSelector(selectShoppingCart);
-	return (
-		items.length > 0 ? (
-			<ul>
-				{items.map(item => (
-					// Shopping items don't have a unique id to use as a key at this time
-					// eslint-disable-next-line react/jsx-key
-					<ShoppingListItem item={item}/>
-				))}
-			</ul>
-		) : (
-			<span>There are no items in the shopping list.</span>
-		)
+	return items.length > 0 ? (
+		<ul>
+			{items.map(item => (
+				<ShoppingListItem key={item.name} item={item}/>
+			))}
+		</ul>
+	) : (
+		<span>There are no items in the shopping list.</span>
 	);
 };
 
