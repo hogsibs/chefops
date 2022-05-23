@@ -6,6 +6,7 @@
     "node": "16.x"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.8.10",
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
@@ -34,7 +35,8 @@
     "react-redux": "^8.0.1",
     "react-scripts": "^5.0.1",
     "typescript": "^4.6.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.0.0-beta.4"
   },
   "scripts": {
     "start": "react-scripts start",

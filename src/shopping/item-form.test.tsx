@@ -1,6 +1,7 @@
 import {render, screen} from '../test-utils';
 import userEvent from '@testing-library/user-event';
 import ItemForm from './item-form';
+import {waitFor} from '@testing-library/react';
 
 const handleSubmitGlobal = jest.fn();
 afterEach(() => {
@@ -23,7 +24,9 @@ test('when the form is submitted, the item is added to the store', async () => {
 	expect(handleSubmitGlobal).toHaveBeenCalledWith(
 		expect.objectContaining({defaultPrevented: true}),
 	);
-	expect(screen.getByLabelText('Item Name')).not.toHaveValue();
+	await waitFor(() => {
+		expect(screen.getByLabelText('Item Name')).not.toHaveValue();
+	});
 	expect(store.getState().shoppingCart).toEqual([{name: 'onions'}]);
 });
 
@@ -32,8 +35,14 @@ test('when the user adds an item that already exists, the item is invalid', asyn
 		preloadedState: {shoppingCart: [{name: 'leeks'}]},
 	});
 
-	await userEvent.type(screen.getByLabelText('Item Name'), 'leeks');
+	const itemNameInput = screen.getByLabelText('Item Name');
+
+	await userEvent.type(itemNameInput, 'leeks');
 	await userEvent.click(screen.getByRole('button', {name: 'Add Item'}));
 
-	expect(screen.getByLabelText('Item Name')).toBeInvalid();
+	await waitFor(() => {
+		expect(itemNameInput).toHaveErrorMessage(
+			'An item with this name is already in your shopping list',
+		);
+	});
 });

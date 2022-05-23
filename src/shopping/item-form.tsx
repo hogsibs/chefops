@@ -1,24 +1,34 @@
 import {FunctionComponent} from 'react';
-import {useForm, useController} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 import {useDispatch, useSelector} from 'react-redux';
 import {Dispatch} from '../store';
-import {addItem, selectShoppingCart} from './shopping-cart-state';
+import {
+	addItem,
+	selectShoppingCart,
+	ShoppingCartState,
+} from './shopping-cart-state';
+import {object, string} from 'yup';
+import {InputField} from '../forms';
 
-interface ItemFormValues {
-	name: string;
-}
+const validationSchema = object({
+	name: string()
+		.default('')
+		.when((_, schema, options) =>
+			schema.notOneOf(
+				(options.context as ShoppingCartState).map(item => item.name),
+				'An item with this name is already in your shopping list',
+			),
+		),
+});
 
 const ItemForm: FunctionComponent = () => {
 	const dispatch = useDispatch<Dispatch>();
 	const shoppingCart = useSelector(selectShoppingCart);
-	const {reset, handleSubmit, control} = useForm<ItemFormValues>();
-	const {field, fieldState} = useController({
-		control,
-		name: 'name',
-		defaultValue: '',
-		rules: {
-			validate: name => shoppingCart.every(item => item.name !== name),
-		},
+	const {reset, handleSubmit, control} = useForm({
+		context: shoppingCart,
+		resolver: yupResolver(validationSchema),
+		defaultValues: validationSchema.cast({}, {context: shoppingCart}),
 	});
 
 	return (
@@ -29,11 +39,7 @@ const ItemForm: FunctionComponent = () => {
 				reset();
 			})}
 		>
-			<input
-				aria-label='Item Name'
-				{...field}
-				aria-invalid={Boolean(fieldState.error)}
-			/>
+			<InputField control={control} name='name' aria-label='Item Name'/>
 			<button type='submit'>Add Item</button>
 		</form>
 	);

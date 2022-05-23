@@ -6,7 +6,7 @@ export interface ShoppingItem {
 	isChecked?: boolean;
 }
 
-type ShoppingCartState = ShoppingItem[];
+export type ShoppingCartState = ShoppingItem[];
 
 const shoppingCartSlice = createSlice({
 	name: 'shoppingCart',
