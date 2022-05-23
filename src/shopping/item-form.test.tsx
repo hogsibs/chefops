@@ -29,12 +29,12 @@ test('when the form is submitted, the item is added to the store', async () => {
 });
 
 test('when the user adds an item that already exists, the item is invalid', async () => {
-	render(<ItemForm/>, {preloadedState: {shoppingCart: [{name: 'leeks'}]}});
+	render(<ItemForm/>, {
+		preloadedState: {shoppingCart: [{name: 'leeks'}]},
+	});
 
 	await userEvent.type(screen.getByLabelText('Item Name'), 'leeks');
 	await userEvent.click(screen.getByRole('button', {name: 'Add Item'}));
 
-	await waitFor(() => {
-		expect(screen.getByLabelText('Item Name')).toBeInvalid();
-	});
+	expect(screen.getByLabelText('Item Name')).toBeInvalid();
 });
