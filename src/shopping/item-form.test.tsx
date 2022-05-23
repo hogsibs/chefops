@@ -1,7 +1,6 @@
 import {render, screen} from '../test-utils';
 import userEvent from '@testing-library/user-event';
 import ItemForm from './item-form';
-import {waitFor} from '@testing-library/react';
 
 const handleSubmitGlobal = jest.fn();
 afterEach(() => {
