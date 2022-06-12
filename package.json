@@ -30,6 +30,7 @@
     "eslint-plugin-react-hook-form": "^0.2.4",
     "eslint-plugin-react-hooks": "^4.5.0",
     "eslint-plugin-react-redux": "^4.0.0",
+    "prettier": "^2.6.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.31.2",
@@ -40,6 +41,8 @@
     "yup": "^1.0.0-beta.4"
   },
   "scripts": {
+    "lint": "prettier src/**/* --check && eslint src/**/*.{ts,tsx}",
+    "lint:fix": "prettier src/**/* --write && eslint src/**/*.{ts,tsx} --fix",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
