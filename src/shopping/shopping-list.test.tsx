@@ -1,73 +1,73 @@
-import {render, screen} from '../test-utils';
-import userEvent from '@testing-library/user-event';
-import ShoppingList from './shopping-list';
-import styles from './shopping-list.module.css';
+import { render, screen } from "../test-utils";
+import userEvent from "@testing-library/user-event";
+import ShoppingList from "./shopping-list";
+import styles from "./shopping-list.module.css";
 
-test('when given an empty list, displays a message indicating there are no items', () => {
-	render(<ShoppingList/>, {preloadedState: {shoppingCart: []}});
+test("when given an empty list, displays a message indicating there are no items", () => {
+  render(<ShoppingList />, { preloadedState: { shoppingCart: [] } });
 
-	expect(
-		screen.getByText('There are no items in the shopping list.'),
-	).toBeInTheDocument();
+  expect(
+    screen.getByText("There are no items in the shopping list.")
+  ).toBeInTheDocument();
 });
 
-test('renders each item in a list', () => {
-	render(<ShoppingList/>, {
-		preloadedState: {
-			shoppingCart: [{name: 'seaweed'}, {name: 'bananas'}],
-		},
-	});
+test("renders each item in a list", () => {
+  render(<ShoppingList />, {
+    preloadedState: {
+      shoppingCart: [{ name: "seaweed" }, { name: "bananas" }],
+    },
+  });
 
-	expect(screen.getByText('seaweed')).toBeInTheDocument();
-	expect(screen.getByText('bananas')).toBeInTheDocument();
+  expect(screen.getByText("seaweed")).toBeInTheDocument();
+  expect(screen.getByText("bananas")).toBeInTheDocument();
 });
 
-test('renders a checkbox for each item', () => {
-	render(<ShoppingList/>, {
-		preloadedState: {shoppingCart: [{name: 'watermelon'}]},
-	});
+test("renders a checkbox for each item", () => {
+  render(<ShoppingList />, {
+    preloadedState: { shoppingCart: [{ name: "watermelon" }] },
+  });
 
-	const element = screen.getByLabelText('watermelon');
-	expect(element).toBeInstanceOf(HTMLInputElement);
-	expect(element).toHaveAttribute('type', 'checkbox');
+  const element = screen.getByLabelText("watermelon");
+  expect(element).toBeInstanceOf(HTMLInputElement);
+  expect(element).toHaveAttribute("type", "checkbox");
 });
 
-test('checked items reflect their states', () => {
-	render(<ShoppingList/>, {
-		preloadedState: {
-			shoppingCart: [
-				{name: 'milk', isChecked: true},
-				{name: 'cookies', isChecked: false},
-				{name: 'carrots'},
-			],
-		},
-	});
+test("checked items reflect their states", () => {
+  render(<ShoppingList />, {
+    preloadedState: {
+      shoppingCart: [
+        { name: "milk", isChecked: true },
+        { name: "cookies", isChecked: false },
+        { name: "carrots" },
+      ],
+    },
+  });
 
-	expect(screen.getByLabelText('milk')).toBeChecked();
-	expect(screen.getByLabelText('cookies')).not.toBeChecked();
-	expect(screen.getByLabelText('carrots')).not.toBeChecked();
+  expect(screen.getByLabelText("milk")).toBeChecked();
+  expect(screen.getByLabelText("cookies")).not.toBeChecked();
+  expect(screen.getByLabelText("carrots")).not.toBeChecked();
 });
 
-test('when a checkbox is checked, the onChangeIsChecked callback is invoked', async () => {
-	const {store} = render(<ShoppingList/>, {
-		preloadedState: {shoppingCart: [{name: 'whipped cream'}]},
-	});
+test("when a checkbox is checked, the onChangeIsChecked callback is invoked", async () => {
+  const { store } = render(<ShoppingList />, {
+    preloadedState: { shoppingCart: [{ name: "whipped cream" }] },
+  });
 
-	await userEvent.click(screen.getByLabelText('whipped cream'));
+  await userEvent.click(screen.getByLabelText("whipped cream"));
 
-	expect(store.getState().shoppingCart).toEqual([
-		{name: 'whipped cream', isChecked: true},
-	]);
+  expect(store.getState().shoppingCart).toEqual([
+    { name: "whipped cream", isChecked: true },
+  ]);
 });
 
-test('checked items are styled in strikethrough', () => {
-	render(<ShoppingList/>, {
-		preloadedState: {shoppingCart: [{name: 'potatoes', isChecked: true}]},
-	});
+test("checked items are styled in strikethrough", () => {
+  render(<ShoppingList />, {
+    preloadedState: { shoppingCart: [{ name: "potatoes", isChecked: true }] },
+  });
 
-	expect(
-		screen
-			.getAllByRole('listitem')
-			.find(item => item.textContent === 'potatoes'),
-	).toHaveClass(styles['item--checked']);
+  expect(
+    screen
+      .getAllByRole("listitem")
+      .find((item) => item.textContent === "potatoes")
+  ).toHaveClass(styles["item--checked"]);
 });

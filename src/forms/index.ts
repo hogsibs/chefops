@@ -1,1 +1,1 @@
-export {default as InputField} from './form-field';
+export { default as InputField } from "./form-field";

@@ -1,5 +1,5 @@
-import {ShoppingModule} from './shopping';
+import { ShoppingModule } from "./shopping";
 
-const App = () => <ShoppingModule/>;
+const App = () => <ShoppingModule />;
 
 export default App;

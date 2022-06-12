@@ -19,16 +19,17 @@
     "@typescript-eslint/parser": "^5.25.0",
     "classnames": "^2.3.1",
     "eslint": "^8.16.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-config-xo": "^0.41.0",
     "eslint-config-xo-react": "^0.27.0",
     "eslint-config-xo-typescript": "^0.51.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hook-form": "^0.2.4",
     "eslint-plugin-react-hooks": "^4.5.0",
     "eslint-plugin-react-redux": "^4.0.0",
-    "eslint-plugin-unicorn": "^42.0.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.31.2",
@@ -46,37 +47,25 @@
   },
   "eslintConfig": {
     "plugins": [
-      "unicorn",
-      "import",
       "jsx-a11y",
       "react-redux",
-      "react-hook-form"
+      "react-hook-form",
+      "prettier"
     ],
     "extends": [
-      "eslint:recommended",
       "xo",
       "xo/browser",
-      "xo-typescript",
-      "xo-react",
-      "plugin:unicorn/recommended",
-      "plugin:import/recommended",
-      "plugin:import/typescript",
+      "xo-typescript/space",
+      "xo-react/space",
       "plugin:jsx-a11y/recommended",
       "react-app",
       "react-app/jest",
       "plugin:react-redux/recommended",
-      "plugin:react-hook-form/recommended"
+      "plugin:react-hook-form/recommended",
+      "prettier"
     ],
     "rules": {
-      "unicorn/filename-case": [
-        "error",
-        {
-          "case": "kebabCase",
-          "ignore": [
-            "setupTests.ts"
-          ]
-        }
-      ],
+      "prettier/prettier": "error",
       "react/react-in-jsx-scope": "off",
       "react/function-component-definition": [
         2,
